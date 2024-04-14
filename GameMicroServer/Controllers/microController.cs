@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using GameMicroServer.Services;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Micro
 {
@@ -15,10 +16,12 @@ namespace Micro
     [Route("[controller]")]
     public class MicroController : ControllerBase
     {
+        GameInfo[] info;
+        private readonly PongClient _pongClient;
         private static readonly List<GameInfo> TheInfo = new List<GameInfo>
         {
             //Remove this code once individual microservices are set up
-            new GameInfo { 
+            new GameInfo {
                 Id = 1,
                 Title = "Snake",
                 //Content = "~/js/snake.js",
@@ -28,7 +31,7 @@ namespace Micro
                 HowTo = "Just snek around",
                 //Thumbnail = "/images/snake.jpg" //640x360 resolution
             },
-            new GameInfo { 
+            new GameInfo {
                 Id = 2,
                 Title = "Tetris",
                 //Content = "~/js/tetris.js",
@@ -38,7 +41,7 @@ namespace Micro
                 HowTo = "Put Blocks Down",
                 //Thumbnail = "/images/tetris.jpg"
             },
-            new GameInfo { 
+            new GameInfo {
                 Id = 3,
                 Title = "Pong",
                 //Content = "~/js/pong.js",
@@ -53,9 +56,10 @@ namespace Micro
 
         private readonly ILogger<MicroController> _logger;
 
-        public MicroController(ILogger<MicroController> logger)
+        public MicroController(ILogger<MicroController> logger, PongClient pong)
         {
             _logger = logger;
+            _pongClient = pong;
         }
 
         private readonly IGameRepository _gameRepo;
@@ -76,15 +80,29 @@ namespace Micro
         //}
         // This method will return the GameInfo object with the specified ID
         [HttpGet("Games/Play/{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var game = TheInfo.FirstOrDefault(g => g.Id == id);
-            if (game == null)
+            // orignal code from Noah and chris to pass through gateway
+            //var game = TheInfo.FirstOrDefault(g => g.Id == id);
+            //if (game == null)
+            //{
+            //    return NotFound();
+            //}
+            //return Ok(game);
+            
+            if(id == 3)
             {
-                return NotFound();
+                info = await _pongClient.GetGameByIdAsync(3);
+                
             }
-            return Ok(game);
+            if (info == null)
+            {
+               return NotFound();
+            } 
+            return Ok(info[0]);
+
         }
+
 
         [HttpGet]
         public IEnumerable<GameInfo> Get()
