@@ -21,7 +21,7 @@ namespace Micro
         private readonly TetrisClient _tetrisClient;
         private static readonly List<GameInfo> TheInfo = new List<GameInfo>
         {
-            //Remove this code once individual microservices are set up
+            //Remove this code once individual microservices are set up.  Get info from each individual microservice and add to a list so when user hits "games" tab it has microservice info still.
             new GameInfo {
                 Id = 1,
                 Title = "Snake",
