@@ -25,30 +25,9 @@ namespace Micro
                 Author = "Hillary clinton ",
                 DateAdded = "01/01/1942",
                 Description = "Look at me im a SNEEEEK",
-                HowTo = "Just snek around",
-                //Thumbnail = "/images/snake.jpg" //640x360 resolution
-            },
-            new GameInfo { 
-                Id = 2,
-                Title = "Tetris",
-                //Content = "~/js/tetris.js",
-                Author = "Steve from minecraft",
-                DateAdded = "09/09/1541",
-                Description = "Block Block Block",
-                HowTo = "Put Blocks Down",
-                //Thumbnail = "/images/tetris.jpg"
-            },
-            new GameInfo { 
-                Id = 3,
-                Title = "Pong",
-                //Content = "~/js/pong.js",
-                Author = "Forest Gump",
-                DateAdded = "07/04/1742",
-                Description = "RUN FOREST RUN!",
-                HowTo = "Hit the back back",
-                //Thumbnail = "/images/pong.jpg"
-            },
-
+                HowTo = "https://youtu.be/dQw4w9WgXcQ?si=FB4F4RdMOvOoBI85",
+                //Thumbnail = "/images/snake.jpg" //640x360 resolution 
+            }
         };
 
         private readonly ILogger<MicroController> _logger;
