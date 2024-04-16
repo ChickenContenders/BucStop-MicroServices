@@ -29,8 +29,9 @@ namespace Micro
                 Author = "Hillary clinton ",
                 DateAdded = "01/01/1942",
                 Description = "Look at me im a SNEEEEK",
-                HowTo = "Just snek around",
+                HowTo = "https://youtu.be/dQw4w9WgXcQ?si=FB4F4RdMOvOoBI85",
                 //Thumbnail = "/images/snake.jpg" //640x360 resolution
+
             },
             new GameInfo {
                 Id = 2,
@@ -52,6 +53,7 @@ namespace Micro
                 HowTo = "Hit the back back",
                 //Thumbnail = "/images/pong.jpg"
             },
+
 
         };
 
