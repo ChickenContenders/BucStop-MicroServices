@@ -26,7 +26,7 @@ namespace Micro
                 DateAdded = "01/01/1942",
                 Description = "Look at me im a SNEEEEK",
                 HowTo = "https://youtu.be/dQw4w9WgXcQ?si=FB4F4RdMOvOoBI85",
-                //Thumbnail = "/images/snake.jpg" //640x360 resolution 
+                //Thumbnail = "/images/snake.jpg" //640x360 resolution
             }
         };
 
