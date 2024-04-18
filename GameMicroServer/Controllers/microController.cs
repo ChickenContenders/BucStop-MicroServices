@@ -19,6 +19,7 @@ namespace Micro
         GameInfo[] info;
         private readonly PongClient _pongClient;
         private readonly TetrisClient _tetrisClient;
+        private readonly SnakeClient _snakeClient;
         private static readonly List<GameInfo> TheInfo = new List<GameInfo>
         {
             //Remove this code once individual microservices are set up
@@ -59,11 +60,12 @@ namespace Micro
 
         private readonly ILogger<MicroController> _logger;
 
-        public MicroController(ILogger<MicroController> logger, PongClient pong, TetrisClient tetrisClient)
+        public MicroController(ILogger<MicroController> logger, PongClient pong, TetrisClient tetrisClient, SnakeClient snakeClient)
         {
             _logger = logger;
             _pongClient = pong;
             _tetrisClient = tetrisClient;
+            _snakeClient = snakeClient;
         }
 
         private readonly IGameRepository _gameRepo;
@@ -93,8 +95,11 @@ namespace Micro
             //    return NotFound();
             //}
             //return Ok(game);
-
-            if (id == 2)
+            if (id == 1)
+            {
+                info = await _snakeClient.GetGameByIdAsync(1);
+            }
+            else if (id == 2)
             {
                 info = await _tetrisClient.GetGameByIdAsync(2);
 
