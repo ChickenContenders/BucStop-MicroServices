@@ -4,10 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
-using GameMicroServer.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Micro
@@ -68,22 +66,6 @@ namespace Micro
             _snakeClient = snakeClient;
         }
 
-        private readonly IGameRepository _gameRepo;
-        //public MicroController(IGameRepository gameRepo)
-        //{
-        //    _gameRepo = gameRepo;
-        //}
-
-        //[HttpGet("game/{id}")]
-        //public IActionResult Get(int id)
-        //{
-        //    var game = _gameRepo.GetByIdAsync(id);
-        //    if (game == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(game);
-        //}
         // This method will return the GameInfo object with the specified ID
         [HttpGet("Games/Play/{id}")]
         public async Task<IActionResult> GetById(int id)
