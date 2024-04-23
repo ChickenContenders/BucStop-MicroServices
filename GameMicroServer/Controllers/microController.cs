@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Micro
 {
@@ -14,20 +14,26 @@ namespace Micro
     [Route("[controller]")]
     public class MicroController : ControllerBase
     {
+        GameInfo[] info;
+        private readonly PongClient _pongClient;
+        private readonly TetrisClient _tetrisClient;
+        private readonly SnakeClient _snakeClient;
         private static readonly List<GameInfo> TheInfo = new List<GameInfo>
         {
-            new GameInfo { 
-                //Id = 1,
+            //Remove this code once individual microservices are set up
+            new GameInfo {
+                Id = 1,
                 Title = "Snake",
                 //Content = "~/js/snake.js",
                 Author = "Hillary clinton ",
                 DateAdded = "01/01/1942",
                 Description = "Look at me im a SNEEEEK",
-                HowTo = "Just snek around",
+                HowTo = "https://youtu.be/dQw4w9WgXcQ?si=FB4F4RdMOvOoBI85",
                 //Thumbnail = "/images/snake.jpg" //640x360 resolution
+
             },
-            new GameInfo { 
-                //Id = 2,
+            new GameInfo {
+                Id = 2,
                 Title = "Tetris",
                 //Content = "~/js/tetris.js",
                 Author = "Steve from minecraft",
@@ -36,8 +42,8 @@ namespace Micro
                 HowTo = "Put Blocks Down",
                 //Thumbnail = "/images/tetris.jpg"
             },
-            new GameInfo { 
-                //Id = 3,
+            new GameInfo {
+                Id = 3,
                 Title = "Pong",
                 //Content = "~/js/pong.js",
                 Author = "Forest Gump",
@@ -47,14 +53,53 @@ namespace Micro
                 //Thumbnail = "/images/pong.jpg"
             },
 
+
         };
 
         private readonly ILogger<MicroController> _logger;
 
-        public MicroController(ILogger<MicroController> logger)
+        public MicroController(ILogger<MicroController> logger, PongClient pong, TetrisClient tetrisClient, SnakeClient snakeClient)
         {
             _logger = logger;
+            _pongClient = pong;
+            _tetrisClient = tetrisClient;
+            _snakeClient = snakeClient;
         }
+
+        // This method will return the GameInfo object with the specified ID
+        [HttpGet("Games/Play/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            // orignal code from Noah and chris to pass through gateway
+            //var game = TheInfo.FirstOrDefault(g => g.Id == id);
+            //if (game == null)
+            //{
+            //    return NotFound();
+            //}
+            //return Ok(game);
+            if (id == 1)
+            {
+                info = await _snakeClient.GetGameByIdAsync(1);
+            }
+            else if (id == 2)
+            {
+                info = await _tetrisClient.GetGameByIdAsync(2);
+
+            }
+            else if(id == 3)
+            {
+                info = await _pongClient.GetGameByIdAsync(3);
+                
+            }
+
+            if (info == null)
+            {
+               return NotFound();
+            } 
+            return Ok(info[0]);
+
+        }
+
 
         [HttpGet]
         public IEnumerable<GameInfo> Get()
